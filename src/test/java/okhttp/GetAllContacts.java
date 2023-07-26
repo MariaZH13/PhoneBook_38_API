@@ -11,10 +11,10 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class GetAllContacts {
+public class GetAllContacts implements TestHelper {
     Gson gson = new Gson();
     OkHttpClient client = new OkHttpClient();
-    String token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoibWFyemhAY29tIiwiaXNzIjoiUmVndWxhaXQiLCJleHAiOjE2OTA5MDU1MzEsImlhdCI6MTY5MDMwNTUzMX0.V6RrtZsKuqOku3qxVAypjX31GhKzn565_YoSYjYy_04";
+//    String token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoibWFyemhAY29tIiwiaXNzIjoiUmVndWxhaXQiLCJleHAiOjE2OTA5MDU1MzEsImlhdCI6MTY5MDMwNTUzMX0.V6RrtZsKuqOku3qxVAypjX31GhKzn565_YoSYjYy_04";
 
 
     @Test

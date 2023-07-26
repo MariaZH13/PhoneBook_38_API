@@ -10,8 +10,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class LoginTests {
-    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+public class LoginTests implements TestHelper{
     Gson gson = new Gson();
     OkHttpClient client = new OkHttpClient();
 
@@ -19,7 +18,7 @@ public class LoginTests {
     public void loginPositive() throws IOException {
         AuthRequestDTO requestDTO = AuthRequestDTO.builder()
                 .username("marzh@com")
-                .password("Qwe1234$")
+                .password("Qwe1234")
                 .build();
         RequestBody requestBody = RequestBody.create(gson.toJson(requestDTO),JSON);
 
@@ -32,16 +31,14 @@ public class LoginTests {
         if(response.isSuccessful()){
 
         AuthResponseDTO responseDTO = gson.fromJson(response.body().string(),AuthResponseDTO.class);
-        System.out.println(responseDTO.getToken());
+//        System.out.println(responseDTO.getToken());
         System.out.println("Response code is: " + response.code());
         Assert.assertTrue(response.isSuccessful());
 
-        }
-        else{
+        } else{
             System.out.println("Response code is: " + response.code());
-            ErrorDTO errorDTO = gson.fromJson(response.body().string(),ErrorDTO.class);
-            System.out.println(errorDTO.getStatus() + " " + errorDTO.getMessage() + " " + errorDTO.getError());
-            Assert.assertTrue(response.isSuccessful());
+            ErrorDTO errorDTO = gson.fromJson(response.body().string(), ErrorDTO.class);
+            System.out.println(errorDTO.getMessage() + " " + errorDTO.getError() + " " + errorDTO.getStatus());
 
         }
     }

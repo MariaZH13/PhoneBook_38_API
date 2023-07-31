@@ -1,24 +1,22 @@
 package okhttp;
 
-import com.google.gson.Gson;
 import dto.AuthRequestDTO;
 import dto.AuthResponseDTO;
 import dto.ErrorDTO;
+import dto.TestHelper;
 import okhttp3.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class LoginTests implements TestHelper{
-    Gson gson = new Gson();
-    OkHttpClient client = new OkHttpClient();
+public class LoginTests implements TestHelper {
 
     @Test
     public void loginPositive() throws IOException {
         AuthRequestDTO requestDTO = AuthRequestDTO.builder()
                 .username("marzh@com")
-                .password("Qwe1234")
+                .password("Qwe1234$")
                 .build();
         RequestBody requestBody = RequestBody.create(gson.toJson(requestDTO),JSON);
 

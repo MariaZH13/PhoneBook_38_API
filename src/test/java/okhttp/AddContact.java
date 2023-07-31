@@ -1,23 +1,17 @@
 package okhttp;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import dto.ContactDTO;
 import dto.ContactResponseDTO;
 import dto.ErrorDTO;
+import dto.TestHelper;
 import okhttp3.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class AddContact implements TestHelper{
+public class AddContact implements TestHelper {
 
-    Gson gson = new Gson();
-    OkHttpClient client = new OkHttpClient();
 
     @Test
     public void AddContactPositive() throws  IOException {
@@ -25,35 +19,37 @@ public class AddContact implements TestHelper{
         ContactDTO contact = ContactDTO.builder()
                 .name("Mary")
                 .lastName("May")
-                .email("mary" + i + "@mail.com")
-                .phone("1234" + i)
+                .email("mary" + INT + "@mail.com")
+                .phone("12345678" + INT)
                 .address("Rehovot")
                 .description("collegue")
                 .build();
         RequestBody requestBody = RequestBody.create(gson.toJson(contact),JSON);
 
         Request request = new Request.Builder()
-                .url(baseUrl + "/v1/contacts")
-                .addHeader("Authorization",token)
+                .url(BASE_URL + "/v1/contacts")
+                .addHeader("Authorization", TOKEN)
                 .post(requestBody)
                 .build();
 
         Response response = client.newCall(request).execute();
         if(response.isSuccessful()){
             ContactResponseDTO responseDTO = gson.fromJson(response.body().string(), ContactResponseDTO.class);
-            System.out.println(responseDTO.getMessage());
+            String message = responseDTO.getMessage();
+            System.out.println(message);
             System.out.println("Response code is " + response.code());
             System.out.println(contact.getId());
             System.out.println(contact.getEmail());
             Assert.assertTrue(response.isSuccessful());
+            String id = message.substring(message.lastIndexOf(" ") + 1);
+            System.out.println(id);
 
         } else{
             System.out.println("Response code is: "+ response.code());
-            ErrorDTO errorDTO = gson.
 
             try {
                 ErrorDTO errorDTO = gson.fromJson(response.body().string(), ErrorDTO.class);
-//                System.out.println(errorDTO.getMessage() + " " + errorDTO.getError() + " " + errorDTO.getStatus());
+                System.out.println(errorDTO.getMessage() + " " + errorDTO.getError() + " " + errorDTO.getStatus());
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());

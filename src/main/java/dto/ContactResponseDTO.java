@@ -12,4 +12,6 @@ import lombok.ToString;
 @Builder
 public class ContactResponseDTO {
     String message;
+
+
 }

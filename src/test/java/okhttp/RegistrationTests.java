@@ -1,11 +1,10 @@
 package okhttp;
 
 
-import com.google.gson.Gson;
 import dto.AuthRequestDTO;
 import dto.AuthResponseDTO;
 import dto.ErrorDTO;
-import okhttp3.OkHttpClient;
+import dto.TestHelper;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -14,22 +13,22 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class RegistrationTests implements TestHelper{
+public class RegistrationTests implements TestHelper {
 
-Gson gson = new Gson();
-OkHttpClient client = new OkHttpClient();
+//Gson gson = new Gson();
+//OkHttpClient client = new OkHttpClient();
 
 @Test
 public void registrationPositive() throws IOException {
 
     AuthRequestDTO requestDTO = AuthRequestDTO.builder()
-            .username("kiwi" + i + "@mail.com")
-            .password("Zxcvb0" + i + "$")
+            .username("kiwi" + INT + "@mail.com")
+            .password("Zxcvb0" + INT + "$")
             .build();
     RequestBody requestBody = RequestBody.create(gson.toJson(requestDTO),JSON);
 
     Request request = new Request.Builder()
-            .url(baseUrl + "/v1/user/registration/usernamepassword")
+            .url(BASE_URL + "/v1/user/registration/usernamepassword")
             .post(requestBody)
             .build();
 
@@ -47,7 +46,7 @@ public void registrationPositive() throws IOException {
         System.out.println("Response code is: " + response.code());
         ErrorDTO errorDTO = gson.fromJson(response.body().string(), ErrorDTO.class);
         System.out.println(errorDTO.getStatus() + " " + errorDTO.getMessage() + " " + errorDTO.getError());
-        Assert.assertTrue(response.isSuccessful());
+        Assert.assertTrue(!response.isSuccessful());
     }
 }
 

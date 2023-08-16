@@ -13,12 +13,14 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class UpdateContactTests implements TestHelper {
     String endpoint = "/v1/contacts";
+
+    ContactDTO contactDTO;
     String id;
 
     @BeforeMethod
     public void precondition() {
         RestAssured.baseURI = BASE_URL;
-        ContactDTO requestDTO = ContactDTO.builder()
+           contactDTO = ContactDTO.builder()
                 .name("Ron")
                 .lastName("Weasley")
                 .email("ron" + INT + "@gmail.com")
@@ -29,7 +31,7 @@ public class UpdateContactTests implements TestHelper {
 
         ContactResponseDTO contactResponseDTO = given()
                 .header("Authorization",TOKEN)
-                .body(requestDTO)
+                .body(contactDTO)
                 .contentType(ContentType.JSON)
                 .when()
                 .post(endpoint)
@@ -39,22 +41,18 @@ public class UpdateContactTests implements TestHelper {
                 .as(ContactResponseDTO.class);
 
         String message = contactResponseDTO.getMessage();
-        System.out.println(message + " " +  requestDTO.getAddress());
+        System.out.println(message + " " +  contactDTO.getName());
         id = message.substring(message.lastIndexOf(" ") + 1);
     }
 
     @Test
     public void updateContactPositive(){
-        ContactDTO requestDTO = ContactDTO.builder()
-                .id(id)
-                .name("Ron")
-                .lastName("Weasley")
-                .address("Haifa")
-                .build();
+         contactDTO.setId(id);
+         contactDTO.setName("Ronny");
 
        ContactResponseDTO contactResponseDTO = given()
                 .header("Authorization",TOKEN)
-                .body(requestDTO)
+                .body(contactDTO)
                 .contentType(ContentType.JSON)
                 .when()
                 .put(endpoint)
@@ -63,7 +61,7 @@ public class UpdateContactTests implements TestHelper {
                 .extract()
                 .as(ContactResponseDTO.class);
 
-        System.out.println(contactResponseDTO.getMessage() + " " + requestDTO.getAddress());
+        System.out.println(contactResponseDTO.getMessage() + " " + contactDTO.getName());
 
     }
     @Test

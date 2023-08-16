@@ -26,7 +26,7 @@ public class RegistrationTests implements TestHelper {
                 .password("Zxcvb$" + INT)
                 .build();
 
-        AuthResponseDTO responseDTO = given()
+        String token = given()
                 .body(requestDTO)
                 .contentType(ContentType.JSON)
                 .when()
@@ -34,9 +34,10 @@ public class RegistrationTests implements TestHelper {
                 .then()
                 .assertThat().statusCode(200)
                 .extract()
-                .as(AuthResponseDTO.class);
+                .path("token");
 
-        System.out.println(requestDTO.getUsername());
+        System.out.println(token);
+        System.out.println(requestDTO.getUsername() + " " + requestDTO.getPassword());
     }
 
     @Test
